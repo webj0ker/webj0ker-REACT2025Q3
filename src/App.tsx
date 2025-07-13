@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import Header from './components/Header/Header';
-
+import Results from './components/Results/Results';
 import './App.css';
 
 interface Spell {
@@ -59,9 +59,17 @@ class App extends Component<object, AppState> {
   };
 
   render() {
+    const { results, error, loading } = this.state;
+
     return (
       <div>
         <Header onSearch={this.handleSearch} />
+        <Results
+          results={results}
+          error={error}
+          loading={loading}
+          throwError={this.throwError}
+        />
       </div>
     );
   }
