@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname "$0")/h"
 # Run tests before pushing
-npm test
+npm run test
