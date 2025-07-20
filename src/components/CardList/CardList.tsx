@@ -12,13 +12,17 @@ class CardList extends Component<CardListProps> {
 
     return (
       <div className="card-list">
-        {limitedResults.map((result, index) => (
-          <Card
-            key={index}
-            name={result.name}
-            description={result.description}
-          />
-        ))}
+        {limitedResults.length === 0 ? (
+          <div>No results</div>
+        ) : (
+          limitedResults.map((result, index) => (
+            <Card
+              key={index}
+              name={result.name}
+              description={result.description}
+            />
+          ))
+        )}
       </div>
     );
   }
