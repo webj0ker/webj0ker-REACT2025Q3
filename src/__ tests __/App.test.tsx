@@ -1,12 +1,33 @@
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import App from '../App';
 
-test('demo', () => {
-  expect(true).toBe(true);
+beforeEach(() => {
+  const mockResponse = {
+    ok: true,
+    json: () => Promise.resolve([{ name: 'Test', description: 'Desc' }]),
+  };
+  jest
+    .spyOn(global, 'fetch')
+    .mockImplementation(() => Promise.resolve(mockResponse as Response));
 });
 
-test('Renders the main page', () => {
+afterEach(() => {
+  jest.restoreAllMocks();
+});
+
+test('Делает начальный API-запрос при монтировании', async () => {
   render(<App />);
-  expect(true).toBeTruthy();
+  await waitFor(() =>
+    expect(
+      screen.getByRole('heading', { name: /harry potter/i })
+    ).toBeInTheDocument()
+  );
+});
+
+test('Обрабатывает успешный ответ API', async () => {
+  render(<App />);
+  await waitFor(() =>
+    expect(screen.getByRole('heading', { name: 'Test' })).toBeInTheDocument()
+  );
 });
