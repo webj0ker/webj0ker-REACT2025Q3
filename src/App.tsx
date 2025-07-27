@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Results from './components/Results/Results';
+import About from './pages/About/About';
 import './App.css';
 
 interface Spell {
@@ -49,8 +51,22 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <Header onSearch={handleSearch} />
-      <Results results={results} error={error} loading={loading} />
+      <nav>
+        <Link to="/">Home</Link> | <Link to="/about">About</Link>
+      </nav>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Header onSearch={handleSearch} />
+              <Results results={results} error={error} loading={loading} />
+            </>
+          }
+        />
+        <Route path="/about" element={<About />} />
+        <Route path="*" element={<div>404 Not Found</div>} />
+      </Routes>
     </div>
   );
 };
