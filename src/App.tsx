@@ -1,6 +1,10 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
+import { Routes, Route, Link, useSearchParams } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Results from './components/Results/Results';
+import Pagination from './components/Pagination/Pagination';
+import About from './pages/About/About';
+import SpellDetails from './components/SpellDetails/SpellDetails';
 import './App.css';
 
 interface Spell {
@@ -8,25 +12,19 @@ interface Spell {
   description?: string;
 }
 
-interface AppState {
-  results: Spell[];
-  error?: string;
-  loading: boolean;
-}
+const ITEMS_PER_PAGE = 10;
 
-class App extends Component<object, AppState> {
-  state: AppState = {
-    results: [],
-    error: undefined,
-    loading: false,
-  };
+const App: React.FC = () => {
+  const [results, setResults] = useState<Spell[]>([]);
+  const [error, setError] = useState<string | undefined>();
+  const [loading, setLoading] = useState(false);
 
-  componentDidMount() {
-    this.handleSearch('');
-  }
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = Number(searchParams.get('page')) || 1;
 
-  handleSearch = (searchTerm: string) => {
-    this.setState({ loading: true, error: undefined });
+  const handleSearch = (searchTerm: string) => {
+    setLoading(true);
+    setError(undefined);
 
     const apiUrl = searchTerm
       ? `https://hp-api.onrender.com/api/spells?name=${searchTerm.toLowerCase()}`
@@ -40,39 +38,87 @@ class App extends Component<object, AppState> {
         return response.json();
       })
       .then((data: Spell[]) => {
-        const results = searchTerm
+        const filtered = searchTerm
           ? data.filter((spell) =>
               spell.name.toLowerCase().includes(searchTerm.toLowerCase())
             )
           : data;
-        this.setState({ results, loading: false });
+        setResults(filtered);
+        setLoading(false);
       })
       .catch((error) => {
-        this.setState({ error: error.message || undefined, loading: false });
+        setError(error.message || undefined);
+        setLoading(false);
       });
   };
 
-  throwError = () => {
-    this.setState(() => {
-      throw new Error('Test error');
-    });
+  useEffect(() => {
+    handleSearch('');
+  }, []);
+
+  // Pagination logic
+  const totalPages = Math.ceil(results.length / ITEMS_PER_PAGE);
+  const paginatedResults = results.slice(
+    (page - 1) * ITEMS_PER_PAGE,
+    page * ITEMS_PER_PAGE
+  );
+
+  const handlePageChange = (newPage: number) => {
+    setSearchParams({ page: String(newPage) });
   };
 
-  render() {
-    const { results, error, loading } = this.state;
+  const details = searchParams.get('details');
 
-    return (
-      <div>
-        <Header onSearch={this.handleSearch} />
-        <Results
-          results={results}
-          error={error}
-          loading={loading}
-          throwError={this.throwError}
-        />
+  const handleShowDetails = (name: string) => {
+    setSearchParams({ page: String(page), details: name });
+  };
+
+  const handleCloseDetails = () => {
+    setSearchParams({ page: String(page) });
+  };
+
+  return (
+    <div>
+      <nav style={{ marginBottom: 16 }}>
+        <Link to="/">Home</Link> | <Link to="/about">About</Link>
+      </nav>
+      <div style={{ display: 'flex' }}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div style={{ display: 'flex', width: '100%' }}>
+                <div style={{ flex: 1 }}>
+                  <Header onSearch={handleSearch} />
+                  <Results
+                    results={paginatedResults}
+                    error={error}
+                    loading={loading}
+                    onCardClick={handleShowDetails}
+                  />
+                  {!loading && (
+                    <Pagination
+                      currentPage={page}
+                      totalPages={totalPages}
+                      onPageChange={handlePageChange}
+                    />
+                  )}
+                </div>
+                {details && (
+                  <SpellDetails
+                    spell={results.find((spell) => spell.name === details)}
+                    onClose={handleCloseDetails}
+                  />
+                )}
+              </div>
+            }
+          />
+          <Route path="/about" element={<About />} />
+          <Route path="*" element={<div>404 Not Found</div>} />
+        </Routes>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default App;

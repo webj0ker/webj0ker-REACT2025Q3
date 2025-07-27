@@ -1,21 +1,20 @@
-import { Component } from 'react';
 import CardList from '../CardList/CardList';
 
 interface SearchResultsProps {
-  results: { name: string; url?: string }[];
+  results: { name: string; url?: string; description?: string }[];
   error?: string;
+  onCardClick?: (name: string) => void;
 }
 
-class SearchResults extends Component<SearchResultsProps> {
-  render() {
-    const { results, error } = this.props;
-
-    if (error) {
-      return <div>Error: {error}</div>;
-    }
-
-    return <CardList results={results} />;
+const SearchResults: React.FC<SearchResultsProps> = ({
+  results,
+  error,
+  onCardClick,
+}) => {
+  if (error) {
+    return <div>Error: {error}</div>;
   }
-}
+  return <CardList results={results} onCardClick={onCardClick} />;
+};
 
 export default SearchResults;

@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import App from '../App';
 
@@ -17,7 +18,11 @@ afterEach(() => {
 });
 
 test('Делает начальный API-запрос при монтировании', async () => {
-  render(<App />);
+  render(
+    <MemoryRouter>
+      <App />
+    </MemoryRouter>
+  );
   await waitFor(() =>
     expect(
       screen.getByRole('heading', { name: /harry potter/i })
@@ -26,7 +31,12 @@ test('Делает начальный API-запрос при монтирова
 });
 
 test('Обрабатывает успешный ответ API', async () => {
-  render(<App />);
+  render(
+    <MemoryRouter>
+      <App />
+    </MemoryRouter>
+  );
+
   await waitFor(() =>
     expect(screen.getByRole('heading', { name: 'Test' })).toBeInTheDocument()
   );
