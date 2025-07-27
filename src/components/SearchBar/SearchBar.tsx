@@ -1,39 +1,31 @@
-import { Component } from 'react';
+import useLocalStorage from '../../hooks/useLocalStorage';
 import './SearchBar.css';
 
 interface SearchBarProps {
   onSearch: (searchTerm: string) => void;
 }
 
-class SearchBar extends Component<SearchBarProps> {
-  state = {
-    searchTerm: localStorage.getItem('searchTerm') || '',
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+  const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm', '');
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
   };
 
-  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchTerm: event.target.value });
+  const handleSearch = () => {
+    const trimmed = searchTerm.trim();
+    setSearchTerm(trimmed);
+    onSearch(trimmed);
   };
 
-  handleSearch = () => {
-    const { searchTerm } = this.state;
-    localStorage.setItem('searchTerm', searchTerm.trim());
-    this.props.onSearch(searchTerm.trim());
-  };
-
-  render() {
-    return (
-      <div>
-        <input
-          type="text"
-          value={this.state.searchTerm}
-          onChange={this.handleInputChange}
-        />
-        <button className="search-button" onClick={this.handleSearch}>
-          Search
-        </button>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <input type="text" value={searchTerm} onChange={handleInputChange} />
+      <button className="search-button" onClick={handleSearch}>
+        Search
+      </button>
+    </div>
+  );
+};
 
 export default SearchBar;
