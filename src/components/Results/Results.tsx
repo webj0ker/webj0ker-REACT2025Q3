@@ -6,11 +6,25 @@ interface ResultsProps {
   results: { name: string; description?: string }[];
   error?: string;
   loading: boolean;
+  onCardClick?: (name: string) => void;
 }
 
-const Results: React.FC<ResultsProps> = ({ results, error, loading }) => (
+const Results: React.FC<ResultsProps> = ({
+  results,
+  error,
+  loading,
+  onCardClick,
+}) => (
   <main>
-    {loading ? <Spinner /> : <SearchResults results={results} error={error} />}
+    {loading ? (
+      <Spinner />
+    ) : (
+      <SearchResults
+        results={results}
+        error={error}
+        onCardClick={onCardClick}
+      />
+    )}
   </main>
 );
 

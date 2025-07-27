@@ -2,9 +2,10 @@ import Card from '../Card/Card';
 
 interface CardListProps {
   results: { name: string; description?: string }[];
+  onCardClick?: (name: string) => void;
 }
 
-const CardList: React.FC<CardListProps> = ({ results }) => {
+const CardList: React.FC<CardListProps> = ({ results, onCardClick }) => {
   const limitedResults = results.slice(0, 10); // Ограничиваем количество карточек до 10
 
   return (
@@ -17,6 +18,7 @@ const CardList: React.FC<CardListProps> = ({ results }) => {
             key={index}
             name={result.name}
             description={result.description}
+            onClick={onCardClick ? () => onCardClick(result.name) : undefined}
           />
         ))
       )}
