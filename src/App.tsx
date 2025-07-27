@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import Header from './components/Header/Header';
 import Results from './components/Results/Results';
 import './App.css';
@@ -8,25 +8,14 @@ interface Spell {
   description?: string;
 }
 
-interface AppState {
-  results: Spell[];
-  error?: string;
-  loading: boolean;
-}
+const App: React.FC = () => {
+  const [results, setResults] = useState<Spell[]>([]);
+  const [error, setError] = useState<string | undefined>();
+  const [loading, setLoading] = useState(false);
 
-class App extends Component<object, AppState> {
-  state: AppState = {
-    results: [],
-    error: undefined,
-    loading: false,
-  };
-
-  componentDidMount() {
-    this.handleSearch('');
-  }
-
-  handleSearch = (searchTerm: string) => {
-    this.setState({ loading: true, error: undefined });
+  const handleSearch = (searchTerm: string) => {
+    setLoading(true);
+    setError(undefined);
 
     const apiUrl = searchTerm
       ? `https://hp-api.onrender.com/api/spells?name=${searchTerm.toLowerCase()}`
@@ -40,39 +29,30 @@ class App extends Component<object, AppState> {
         return response.json();
       })
       .then((data: Spell[]) => {
-        const results = searchTerm
+        const filtered = searchTerm
           ? data.filter((spell) =>
               spell.name.toLowerCase().includes(searchTerm.toLowerCase())
             )
           : data;
-        this.setState({ results, loading: false });
+        setResults(filtered);
+        setLoading(false);
       })
       .catch((error) => {
-        this.setState({ error: error.message || undefined, loading: false });
+        setError(error.message || undefined);
+        setLoading(false);
       });
   };
 
-  throwError = () => {
-    this.setState(() => {
-      throw new Error('Test error');
-    });
-  };
+  useEffect(() => {
+    handleSearch('');
+  }, []);
 
-  render() {
-    const { results, error, loading } = this.state;
-
-    return (
-      <div>
-        <Header onSearch={this.handleSearch} />
-        <Results
-          results={results}
-          error={error}
-          loading={loading}
-          throwError={this.throwError}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <Header onSearch={handleSearch} />
+      <Results results={results} error={error} loading={loading} />
+    </div>
+  );
+};
 
 export default App;
