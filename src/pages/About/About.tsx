@@ -8,7 +8,7 @@ const About = () => (
         Author: <strong>Stanislav Shendryk</strong>
       </p>
       <a
-        href="https://rs.school/react/"
+        href="https://rs.school/courses/reactjs"
         target="_blank"
         rel="noopener noreferrer"
       >
