@@ -1,21 +1,16 @@
-import { Component } from 'react';
 import SearchBar from '../SearchBar/SearchBar';
 
 interface HeaderProps {
   onSearch: (searchTerm: string) => void;
 }
 
-class Header extends Component<HeaderProps> {
-  render() {
-    return (
-      <header>
-        <h1>Harry Potter all spells</h1>
-        <div className="search-bar">
-          <SearchBar onSearch={this.props.onSearch} />
-        </div>
-      </header>
-    );
-  }
-}
+const Header: React.FC<HeaderProps> = ({ onSearch }) => (
+  <header>
+    <h1>Harry Potter all spells</h1>
+    <div className="search-bar">
+      <SearchBar onSearch={onSearch} />
+    </div>
+  </header>
+);
 
 export default Header;
