@@ -6,17 +6,20 @@ import { store } from './store';
 import './index.css';
 import App from './App';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import { ThemeProvider } from './context/ThemeContext';
 
 const rootElement = document.getElementById('root');
 if (rootElement) {
   createRoot(rootElement).render(
     <StrictMode>
       <ErrorBoundary>
-        <Provider store={store}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </Provider>
+        <ThemeProvider>
+          <Provider store={store}>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </Provider>
+        </ThemeProvider>
       </ErrorBoundary>
     </StrictMode>
   );

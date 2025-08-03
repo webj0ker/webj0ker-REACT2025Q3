@@ -65,3 +65,23 @@
   font-size: 14px;
   line-height: 1.5;
 }
+
+[data-theme='dark'] .about-container {
+  background-color: #232323;
+  color: #eee;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.32);
+}
+
+[data-theme='dark'] .about-container h2,
+[data-theme='dark'] .about-container h3 {
+  color: #fff;
+}
+
+[data-theme='dark'] .about-container pre {
+  background-color: #181818;
+  color: #ccc;
+}
+
+[data-theme='dark'] .about-container a {
+  color: #6ab7ff;
+}
