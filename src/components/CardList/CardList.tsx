@@ -6,16 +6,17 @@ interface CardListProps {
 }
 
 const CardList: React.FC<CardListProps> = ({ results, onCardClick }) => {
-  const limitedResults = results.slice(0, 10);
+  const showLimit = 10;
+  const limitedResults = results.slice(0, showLimit);
 
   return (
     <div className="card-list">
       {limitedResults.length === 0 ? (
         <div>No results</div>
       ) : (
-        limitedResults.map((result, index) => (
+        limitedResults.map((result) => (
           <Card
-            key={index}
+            key={result.name}
             name={result.name}
             description={result.description}
             onClick={onCardClick ? () => onCardClick(result.name) : undefined}
