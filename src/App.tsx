@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route, Link, useSearchParams } from 'react-router-dom';
-import { useTheme } from './context/ThemeContext';
+import { useTheme } from './context/useTheme';
 import Header from './components/Header/Header';
 import Results from './components/Results/Results';
 import Pagination from './components/Pagination/Pagination';
