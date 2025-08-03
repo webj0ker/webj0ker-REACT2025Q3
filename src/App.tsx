@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route, Link, useSearchParams } from 'react-router-dom';
+import { useTheme } from './context/useTheme';
 import Header from './components/Header/Header';
 import Results from './components/Results/Results';
 import Pagination from './components/Pagination/Pagination';
 import About from './pages/About/About';
 import SpellDetails from './components/SpellDetails/SpellDetails';
+import SelectedFlyout from './components/SelectedFlyout/SelectedFlyout';
 import './App.css';
 
 interface Spell {
@@ -21,6 +23,8 @@ const App: React.FC = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
+
+  const { theme, setTheme } = useTheme();
 
   const handleSearch = (searchTerm: string) => {
     setLoading(true);
@@ -81,6 +85,14 @@ const App: React.FC = () => {
     <div>
       <nav style={{ marginBottom: 16 }}>
         <Link to="/">Home</Link> | <Link to="/about">About</Link>
+        <select
+          value={theme}
+          onChange={(e) => setTheme(e.target.value as 'light' | 'dark')}
+          style={{ marginLeft: 16 }}
+        >
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
       </nav>
       <div style={{ display: 'flex' }}>
         <Routes>
@@ -117,6 +129,7 @@ const App: React.FC = () => {
           <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
       </div>
+      <SelectedFlyout />
     </div>
   );
 };

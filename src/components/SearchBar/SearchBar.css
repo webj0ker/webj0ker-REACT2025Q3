@@ -1,5 +1,5 @@
 .search-button {
-  background-color: #3498db; /* Синий цвет */
+  background-color: #3498db;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -10,5 +10,5 @@
 }
 
 .search-button:hover {
-  background-color: #2980b9; /* Темно-синий цвет при наведении */
+  background-color: #2980b9;
 }

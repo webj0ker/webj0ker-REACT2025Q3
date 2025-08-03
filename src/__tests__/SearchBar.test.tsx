@@ -6,31 +6,31 @@ beforeEach(() => {
   localStorage.clear();
 });
 
-test('Рендерит поле поиска и кнопку', () => {
+test('Renders search field and button', () => {
   render(<SearchBar onSearch={jest.fn()} />);
   expect(screen.getByRole('textbox')).toBeInTheDocument();
   expect(screen.getByRole('button')).toBeInTheDocument();
 });
 
-test('Показывает сохранённый поисковый запрос из localStorage при монтировании', () => {
+test('Shows saved search query from localStorage when mounted', () => {
   localStorage.setItem('searchTerm', 'test');
   render(<SearchBar onSearch={jest.fn()} />);
   expect(screen.getByRole('textbox')).toHaveValue('test');
 });
 
-test('Показывает пустое поле, если сохранённого запроса нет', () => {
+test('Shows an empty field if there is no saved query.', () => {
   render(<SearchBar onSearch={jest.fn()} />);
   expect(screen.getByRole('textbox')).toHaveValue('');
 });
 
-test('Обновляет значение поля при вводе пользователя', () => {
+test('Updates the field value as the user types.', () => {
   render(<SearchBar onSearch={jest.fn()} />);
   const input = screen.getByRole('textbox');
   fireEvent.change(input, { target: { value: 'hello' } });
   expect(input).toHaveValue('hello');
 });
 
-test('Сохраняет поисковый запрос в localStorage при нажатии на кнопку', () => {
+test('Saves the search query to localStorage when the button is clicked', () => {
   render(<SearchBar onSearch={jest.fn()} />);
   const input = screen.getByRole('textbox');
   fireEvent.change(input, { target: { value: 'hello' } });
@@ -38,7 +38,7 @@ test('Сохраняет поисковый запрос в localStorage при 
   expect(localStorage.getItem('searchTerm')).toBe('hello');
 });
 
-test('Обрезает пробелы перед сохранением', () => {
+test('Trims spaces before saving', () => {
   render(<SearchBar onSearch={jest.fn()} />);
   const input = screen.getByRole('textbox');
   fireEvent.change(input, { target: { value: '  hello  ' } });
@@ -46,7 +46,7 @@ test('Обрезает пробелы перед сохранением', () => 
   expect(localStorage.getItem('searchTerm')).toBe('hello');
 });
 
-test('Вызывает onSearch с правильным параметром', () => {
+test('Calls onSearch with the correct parameter', () => {
   const onSearch = jest.fn();
   render(<SearchBar onSearch={onSearch} />);
   const input = screen.getByRole('textbox');
@@ -55,7 +55,7 @@ test('Вызывает onSearch с правильным параметром', (
   expect(onSearch).toHaveBeenCalledWith('query');
 });
 
-test('Перезаписывает значение в localStorage при новом поиске', () => {
+test('Overwrites the value in localStorage on new search', () => {
   localStorage.setItem('searchTerm', 'old');
   render(<SearchBar onSearch={jest.fn()} />);
   const input = screen.getByRole('textbox');

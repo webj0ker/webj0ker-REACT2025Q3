@@ -1,7 +1,10 @@
 import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen, waitFor } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { store } from '../store';
 import App from '../App';
+import { ThemeProvider } from '../context/ThemeContext';
 
 beforeEach(() => {
   const mockResponse = {
@@ -17,11 +20,15 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-test('Делает начальный API-запрос при монтировании', async () => {
+test('Renders the application title', async () => {
   render(
-    <MemoryRouter>
-      <App />
-    </MemoryRouter>
+    <ThemeProvider>
+      <Provider store={store}>
+        <MemoryRouter>
+          <App />
+        </MemoryRouter>
+      </Provider>
+    </ThemeProvider>
   );
   await waitFor(() =>
     expect(
@@ -30,11 +37,15 @@ test('Делает начальный API-запрос при монтирова
   );
 });
 
-test('Обрабатывает успешный ответ API', async () => {
+test('Handles a successful API response', async () => {
   render(
-    <MemoryRouter>
-      <App />
-    </MemoryRouter>
+    <ThemeProvider>
+      <Provider store={store}>
+        <MemoryRouter>
+          <App />
+        </MemoryRouter>
+      </Provider>
+    </ThemeProvider>
   );
 
   await waitFor(() =>
