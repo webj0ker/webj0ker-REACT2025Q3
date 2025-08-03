@@ -5,6 +5,7 @@ import Results from './components/Results/Results';
 import Pagination from './components/Pagination/Pagination';
 import About from './pages/About/About';
 import SpellDetails from './components/SpellDetails/SpellDetails';
+import SelectedFlyout from './components/SelectedFlyout/SelectedFlyout';
 import './App.css';
 
 interface Spell {
@@ -117,6 +118,7 @@ const App: React.FC = () => {
           <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
       </div>
+      <SelectedFlyout />
     </div>
   );
 };
