@@ -1,14 +1,14 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import Pagination from '../components/Pagination/Pagination';
 
-test('не отображается при одной странице', () => {
+test('does not display on one page', () => {
   const { container } = render(
     <Pagination currentPage={1} totalPages={1} onPageChange={() => {}} />
   );
   expect(container.querySelector('button')).toBeNull();
 });
 
-test('отображает кнопки страниц и реагирует на клик', () => {
+test('displays page buttons and responds to clicks', () => {
   const onPageChange = jest.fn();
   render(
     <Pagination currentPage={2} totalPages={3} onPageChange={onPageChange} />

@@ -20,7 +20,7 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-test('Рендерит заголовок приложения', async () => {
+test('Renders the application title', async () => {
   render(
     <ThemeProvider>
       <Provider store={store}>
@@ -37,7 +37,7 @@ test('Рендерит заголовок приложения', async () => {
   );
 });
 
-test('Обрабатывает успешный ответ API', async () => {
+test('Handles a successful API response', async () => {
   render(
     <ThemeProvider>
       <Provider store={store}>

@@ -14,13 +14,13 @@ function renderWithStore(props = {}) {
   );
 }
 
-test('Отображает имя и описание', () => {
+test('Displays name and description', () => {
   renderWithStore();
   expect(screen.getByText('Test')).toBeInTheDocument();
   expect(screen.getByText('Desc')).toBeInTheDocument();
 });
 
-test('Чекбокс работает', () => {
+test('The checkbox works', () => {
   renderWithStore();
   const checkbox = screen.getByRole('checkbox');
   fireEvent.click(checkbox);
@@ -29,14 +29,14 @@ test('Чекбокс работает', () => {
   expect(checkbox).not.toBeChecked();
 });
 
-test('onClick вызывается при клике по карточке', () => {
+test('onClick is called when the card is clicked', () => {
   const onClick = jest.fn();
   renderWithStore({ onClick });
   fireEvent.click(screen.getByText('Test'));
   expect(onClick).toHaveBeenCalled();
 });
 
-test('Корректно обрабатывает отсутствие description', () => {
+test('Correctly handles the absence of description', () => {
   const store = configureStore({ reducer: { selected: selectedReducer } });
   render(
     <Provider store={store}>

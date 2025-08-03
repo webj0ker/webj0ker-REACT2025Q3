@@ -12,12 +12,12 @@ test('показывает детали заклинания', () => {
   expect(screen.getByText('Desc')).toBeInTheDocument();
 });
 
-test('показывает сообщение, если нет данных', () => {
+test('shows message if there is no data', () => {
   render(<SpellDetails onClose={() => {}} />);
   expect(screen.getByText(/No details found/i)).toBeInTheDocument();
 });
 
-test('кнопка Close работает', () => {
+test('Close button works', () => {
   const onClose = jest.fn();
   render(<SpellDetails spell={{ name: 'Test' }} onClose={onClose} />);
   fireEvent.click(screen.getByText(/Close/i));

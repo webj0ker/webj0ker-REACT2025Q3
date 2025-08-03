@@ -22,25 +22,25 @@ function renderWithStore(items: Item[] = []) {
   };
 }
 
-test('не отображается, если ничего не выбрано', () => {
+test('not displayed if nothing is selected', () => {
   renderWithStore();
   expect(screen.queryByText(/selected/i)).not.toBeInTheDocument();
 });
 
-test('отображает количество выбранных и кнопки', () => {
+test('displays the number of selected and buttons', () => {
   renderWithStore([{ name: 'Test', description: 'Desc' }]);
   expect(screen.getByText(/1 item selected/i)).toBeInTheDocument();
   expect(screen.getByText(/Unselect all/i)).toBeInTheDocument();
   expect(screen.getByText(/Download/i)).toBeInTheDocument();
 });
 
-test('Unselect all очищает выбранные', () => {
+test('Unselect all clears the selection', () => {
   const { store } = renderWithStore([{ name: 'Test' }]);
   fireEvent.click(screen.getByText(/Unselect all/i));
   expect(store.getState().selected.items).toHaveLength(0);
 });
 
-test('Download создает ссылку для скачивания', () => {
+test('Download creates a download link', () => {
   renderWithStore([{ name: 'Test', description: 'Desc' }]);
   const createElementSpy = jest.spyOn(document, 'createElement');
   fireEvent.click(screen.getByText(/Download/i));

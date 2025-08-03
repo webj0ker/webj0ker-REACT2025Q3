@@ -12,7 +12,7 @@ beforeEach(() => {
 afterEach(() => {
   (console.error as jest.Mock).mockRestore();
 });
-test('Перехватывает ошибку и показывает fallback UI', () => {
+test('Catch the error and show the fallback UI', () => {
   render(
     <ErrorBoundary>
       {' '}
@@ -21,7 +21,7 @@ test('Перехватывает ошибку и показывает fallback U
   );
   expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
 });
-test('Показывает кнопку Go Back и восстанавливает UI', () => {
+test('Shows the Go Back button and restores the UI', () => {
   const { rerender } = render(
     <ErrorBoundary>
       <ProblemChild />

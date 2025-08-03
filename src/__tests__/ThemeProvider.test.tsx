@@ -20,7 +20,7 @@ describe('ThemeProvider', () => {
     document.body.removeAttribute('data-theme');
   });
 
-  it('sets default theme to light if nothing in localStorage', () => {
+  test('sets default theme to light if nothing in localStorage', () => {
     render(
       <ThemeProvider>
         <TestComponent />
@@ -30,7 +30,7 @@ describe('ThemeProvider', () => {
     expect(document.body.getAttribute('data-theme')).toBe('light');
   });
 
-  it('restores theme from localStorage', () => {
+  test('restores theme from localStorage', () => {
     localStorage.setItem('theme', 'dark');
     render(
       <ThemeProvider>
@@ -41,7 +41,7 @@ describe('ThemeProvider', () => {
     expect(document.body.getAttribute('data-theme')).toBe('dark');
   });
 
-  it('changes theme and saves to localStorage', async () => {
+  test('changes theme and saves to localStorage', async () => {
     render(
       <ThemeProvider>
         <TestComponent />

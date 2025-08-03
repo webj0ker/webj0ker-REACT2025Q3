@@ -10,7 +10,7 @@ function renderWithStore(ui: React.ReactElement) {
   return render(<Provider store={store}>{ui}</Provider>);
 }
 
-test('Рендерит не более 10 карточек', () => {
+test('Renders no more than 10 cards', () => {
   const results = Array.from({ length: 12 }, (_, i) => ({
     name: `Item ${i + 1}`,
     description: `Desc ${i + 1}`,
@@ -19,19 +19,19 @@ test('Рендерит не более 10 карточек', () => {
   expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(10);
 });
 
-test('Показывает сообщение "no results" при пустом массиве', () => {
+test('Shows "no results" message when array is empty', () => {
   renderWithStore(<CardList results={[]} />);
   expect(screen.getByText(/no results/i)).toBeInTheDocument();
 });
 
-test('Корректно отображает имя и описание', () => {
+test('Displays name and description correctly', () => {
   const results = [{ name: 'Test', description: 'Desc' }];
   renderWithStore(<CardList results={results} />);
   expect(screen.getByRole('heading', { name: 'Test' })).toBeInTheDocument();
   expect(screen.getByText('Desc')).toBeInTheDocument();
 });
 
-test('Корректно обрабатывает отсутствие description', () => {
+test('Correctly handles the absence of description', () => {
   const results = [{ name: 'Test' }];
   renderWithStore(<CardList results={results} />);
   expect(screen.getByRole('heading', { name: 'Test' })).toBeInTheDocument();

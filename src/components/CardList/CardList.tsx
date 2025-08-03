@@ -6,7 +6,7 @@ interface CardListProps {
 }
 
 const CardList: React.FC<CardListProps> = ({ results, onCardClick }) => {
-  const limitedResults = results.slice(0, 10); // Ограничиваем количество карточек до 10
+  const limitedResults = results.slice(0, 10);
 
   return (
     <div className="card-list">
