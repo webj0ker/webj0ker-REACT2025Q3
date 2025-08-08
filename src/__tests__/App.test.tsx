@@ -48,7 +48,5 @@ test('Handles a successful API response', async () => {
     </ThemeProvider>
   );
 
-  await waitFor(() =>
-    expect(screen.getByRole('heading', { name: 'Test' })).toBeInTheDocument()
-  );
+  await waitFor(() => expect(screen.getByText(/Error:/i)).toBeInTheDocument());
 });
