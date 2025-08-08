@@ -1,5 +1,3 @@
-import SearchResults from '../SearchResults/SearchResults';
-import Spinner from '../Spinner/Spinner';
 import './Results.css';
 
 interface ResultsProps {
@@ -14,18 +12,20 @@ const Results: React.FC<ResultsProps> = ({
   error,
   loading,
   onCardClick,
-}) => (
-  <main>
-    {loading ? (
-      <Spinner />
-    ) : (
-      <SearchResults
-        results={results}
-        error={error}
-        onCardClick={onCardClick}
-      />
-    )}
-  </main>
-);
+}) => {
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!results || results.length === 0) return <div>No results</div>;
+  return (
+    <div>
+      {results.map((result) => (
+        <div key={result.name} onClick={() => onCardClick?.(result.name)}>
+          <h3>{result.name}</h3>
+          <p>{result.description}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export default Results;
