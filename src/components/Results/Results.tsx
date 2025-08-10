@@ -1,6 +1,5 @@
-import SearchResults from '../SearchResults/SearchResults';
-import Spinner from '../Spinner/Spinner';
 import './Results.css';
+import CardList from '../CardList/CardList';
 
 interface ResultsProps {
   results: { name: string; description?: string }[];
@@ -14,18 +13,11 @@ const Results: React.FC<ResultsProps> = ({
   error,
   loading,
   onCardClick,
-}) => (
-  <main>
-    {loading ? (
-      <Spinner />
-    ) : (
-      <SearchResults
-        results={results}
-        error={error}
-        onCardClick={onCardClick}
-      />
-    )}
-  </main>
-);
+}) => {
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!results || results.length === 0) return <div>No results</div>;
+  return <CardList results={results} onCardClick={onCardClick} />;
+};
 
 export default Results;

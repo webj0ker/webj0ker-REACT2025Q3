@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Routes, Route, Link, useSearchParams } from 'react-router-dom';
 import { useTheme } from './context/useTheme';
 import Header from './components/Header/Header';
@@ -7,65 +7,49 @@ import Pagination from './components/Pagination/Pagination';
 import About from './pages/About/About';
 import SpellDetails from './components/SpellDetails/SpellDetails';
 import SelectedFlyout from './components/SelectedFlyout/SelectedFlyout';
+import { useGetSpellsQuery } from './store/apiSlice';
 import './App.css';
+
+const ITEMS_PER_PAGE = 10;
 
 interface Spell {
   name: string;
   description?: string;
+  [key: string]: unknown;
 }
 
-const ITEMS_PER_PAGE = 10;
-
 const App: React.FC = () => {
-  const [results, setResults] = useState<Spell[]>([]);
-  const [error, setError] = useState<string | undefined>();
-  const [loading, setLoading] = useState(false);
-
+  const [searchTerm, setSearchTerm] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
-
   const { theme, setTheme } = useTheme();
 
-  const handleSearch = (searchTerm: string) => {
-    setLoading(true);
-    setError(undefined);
+  const {
+    data: results = [],
+    error,
+    isLoading,
+    isFetching,
+    refetch,
+  } = useGetSpellsQuery(undefined);
 
-    const apiUrl = searchTerm
-      ? `https://hp-api.onrender.com/api/spells?name=${searchTerm.toLowerCase()}`
-      : 'https://hp-api.onrender.com/api/spells';
+  const spells: Spell[] = Array.isArray(results) ? (results as Spell[]) : [];
 
-    fetch(apiUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data: Spell[]) => {
-        const filtered = searchTerm
-          ? data.filter((spell) =>
-              spell.name.toLowerCase().includes(searchTerm.toLowerCase())
-            )
-          : data;
-        setResults(filtered);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error.message || undefined);
-        setLoading(false);
-      });
-  };
+  const filteredResults: Spell[] = searchTerm
+    ? spells.filter((spell) =>
+        spell.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : spells;
 
-  useEffect(() => {
-    handleSearch('');
-  }, []);
-
-  // Pagination logic
-  const totalPages = Math.ceil(results.length / ITEMS_PER_PAGE);
-  const paginatedResults = results.slice(
+  const totalPages = Math.ceil(filteredResults.length / ITEMS_PER_PAGE);
+  const paginatedResults = filteredResults.slice(
     (page - 1) * ITEMS_PER_PAGE,
     page * ITEMS_PER_PAGE
   );
+
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
+    setSearchParams({ page: '1' });
+  };
 
   const handlePageChange = (newPage: number) => {
     setSearchParams({ page: String(newPage) });
@@ -81,6 +65,10 @@ const App: React.FC = () => {
     setSearchParams({ page: String(page) });
   };
 
+  const handleRefresh = () => {
+    refetch();
+  };
+
   return (
     <div>
       <nav style={{ marginBottom: 16 }}>
@@ -93,6 +81,9 @@ const App: React.FC = () => {
           <option value="light">Light</option>
           <option value="dark">Dark</option>
         </select>
+        <button style={{ marginLeft: 16 }} onClick={handleRefresh}>
+          Refresh
+        </button>
       </nav>
       <div style={{ display: 'flex' }}>
         <Routes>
@@ -104,11 +95,11 @@ const App: React.FC = () => {
                   <Header onSearch={handleSearch} />
                   <Results
                     results={paginatedResults}
-                    error={error}
-                    loading={loading}
+                    error={error ? error.toString() : undefined}
+                    loading={isLoading || isFetching}
                     onCardClick={handleShowDetails}
                   />
-                  {!loading && (
+                  {!isLoading && !isFetching && (
                     <Pagination
                       currentPage={page}
                       totalPages={totalPages}
@@ -118,7 +109,9 @@ const App: React.FC = () => {
                 </div>
                 {details && (
                   <SpellDetails
-                    spell={results.find((spell) => spell.name === details)}
+                    spell={filteredResults.find(
+                      (spell) => spell.name === details
+                    )}
                     onClose={handleCloseDetails}
                   />
                 )}

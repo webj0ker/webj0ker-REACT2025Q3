@@ -11,3 +11,8 @@
 .throw-error-button:hover {
   background-color: #2980b9;
 }
+
+.results-container {
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
