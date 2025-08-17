@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { unselectAll } from '../../store/selectedSlice';
-import './SelectedFlyout.css';
 
 const SelectedFlyout = () => {
   const dispatch = useDispatch();

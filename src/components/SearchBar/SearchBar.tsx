@@ -1,5 +1,4 @@
 import useLocalStorage from '../../hooks/useLocalStorage';
-import './SearchBar.css';
 
 interface SearchBarProps {
   onSearch: (searchTerm: string) => void;

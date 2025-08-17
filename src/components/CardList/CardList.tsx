@@ -1,4 +1,3 @@
-import './CardList.css';
 import Card from '../Card/Card';
 
 interface CardListProps {

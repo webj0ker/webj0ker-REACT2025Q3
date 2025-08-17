@@ -1,7 +1,7 @@
-// import './About.css';
+import './About.css';
 
-const About = () => (
-  <div className="about-container">
+export default function AboutPage() {
+  return  <div className="about-container">
     <section>
       <h2>About This App</h2>
       <p>
@@ -102,6 +102,11 @@ getMin(3, 0, -3);`}</code>
       <p>Pre-Intermediate</p>
     </section>
   </div>
-);
+}
 
-export default About;
+
+
+
+
+
+

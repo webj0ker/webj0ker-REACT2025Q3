@@ -1,4 +1,3 @@
-import './Results.css';
 import CardList from '../CardList/CardList';
 
 interface ResultsProps {

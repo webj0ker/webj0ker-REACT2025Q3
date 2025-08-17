@@ -16,7 +16,7 @@ const Pagination: React.FC<PaginationProps> = ({
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <nav>
+    <nav className='pagination'>
       {pages.map((page) => (
         <button
           key={page}
