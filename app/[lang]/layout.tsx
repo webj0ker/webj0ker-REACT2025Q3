@@ -8,7 +8,6 @@ import '../globals.css';
 export async function generateStaticParams() {
   return [{ lang: 'en' }, { lang: 'ru' }];
 }
-
 export const dynamicParams = false;
 
 export default async function LocaleRootLayout({

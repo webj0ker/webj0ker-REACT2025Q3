@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams, useRouter, useParams } from 'next/navigation';
 import { useTheme } from '../../context/useTheme';
 import Header from '../Header/Header';
 import Results from '../Results/Results';
@@ -9,7 +9,6 @@ import Pagination from '../Pagination/Pagination';
 import SpellDetails from '../SpellDetails/SpellDetails';
 import SelectedFlyout from '../SelectedFlyout/SelectedFlyout';
 import { useTranslations } from 'next-intl';
-// import { usePathname, useRouter as useIntlRouter } from 'next-intl/navigation';
 import Link from 'next/link';
 import LocaleSwitcher from '../LocaleSwitcher/LocaleSwitcher';
 
@@ -25,6 +24,8 @@ export default function SpellsApp({ initialSpells }: { initialSpells: Spell[] })
   const t = useTranslations();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const params = useParams();
+  const lang = params?.lang as string;
 
   const [searchTerm, setSearchTerm] = useState(searchParams?.get('q') || '');
   const page = Number(searchParams?.get('page')) || 1;
@@ -71,14 +72,14 @@ export default function SpellsApp({ initialSpells }: { initialSpells: Spell[] })
   };
 
   const handleRefresh = () => {
-    router.refresh(); // Next.js обновит данные с сервера
+    router.refresh();
   };
 
   return (
     <div>
-      <nav className='navigation-top' style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <Link href="/">{t('Home')}</Link>
-        <Link href="/about">{t('About')}</Link>
+      <nav className='navigation-top'>
+        <Link href={`/${lang}`}>{t('Home')}</Link>
+        <Link href={`/${lang}/about`}>{t('About')}</Link>
         <select
           value={theme}
           onChange={(e) => setTheme(e.target.value as 'light' | 'dark')}

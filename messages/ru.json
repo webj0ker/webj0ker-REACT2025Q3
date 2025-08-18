@@ -14,5 +14,13 @@
     "description": "Запрошенная страница не найдена.",
     "returnHome": "Вернуться на главную"
   },
-  "Close": "Закрыть"
+  "Close": "Закрыть",
+  "AboutThisApp": "О приложении",
+  "ContactInfo": "Контакты",
+  "Summary": "О себе",
+  "Skills": "Навыки",
+  "CodeExample": "Пример кода",
+  "Experience": "Опыт",
+  "Education": "Образование",
+  "English": "Английский"
 }

@@ -14,5 +14,13 @@
     "description": "Could not find the requested page.",
     "returnHome": "Return Home"
   },
-  "Close": "Close"
+  "Close": "Close",
+  "AboutThisApp": "About This App",
+  "ContactInfo": "Contact Info",
+  "Summary": "Summary",
+  "Skills": "Skills",
+  "CodeExample": "Code Example",
+  "Experience": "Experience",
+  "Education": "Education",
+  "English": "English"
 }
