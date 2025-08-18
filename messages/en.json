@@ -13,5 +13,6 @@
   "NotFound": {
     "description": "Could not find the requested page.",
     "returnHome": "Return Home"
-  }
+  },
+  "Close": "Close"
 }

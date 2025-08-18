@@ -1,3 +1,6 @@
+'use client';
+import { useTranslations } from 'next-intl';
+
 interface Spell {
   name: string;
   description?: string;
@@ -9,11 +12,13 @@ interface SpellDetailsProps {
 }
 
 const SpellDetails: React.FC<SpellDetailsProps> = ({ spell, onClose }) => {
-  if (!spell) return <div>No details found</div>;
+  const t = useTranslations();
+
+  if (!spell) return null;
 
   return (
-    <aside style={{ borderLeft: '1px solid #ccc', padding: 16, minWidth: 250 }}>
-      <button onClick={onClose}>Close</button>
+    <aside className="spell-details">
+      <button onClick={onClose}>{t('Close')}</button>
       <h2>{spell.name}</h2>
       <p>{spell.description}</p>
     </aside>
