@@ -398,10 +398,19 @@ margin: 0;
   }
 }
 
-
 .spell-details {
   border-left: 1px solid #ccc;
   padding: 16px;
   min-width: 250px; 
   max-width: 400px;
+}
+
+.wrapper-main {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.main {
+  max-width: 1300px;
 }

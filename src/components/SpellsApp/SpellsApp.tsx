@@ -90,8 +90,8 @@ export default function SpellsApp({ initialSpells }: { initialSpells: Spell[] })
         <LocaleSwitcher />
         <button onClick={handleRefresh}>{t('Refresh')}</button>
       </nav>
-      <div style={{ display: 'flex', width: '100%' }}>
-        <div style={{ flex: 1 }}>
+      <div className='wrapper-main'>
+        <div className='main'>
           <Header onSearch={handleSearch} initialSearchTerm={searchTerm} />
           <Results
             results={paginatedResults}
