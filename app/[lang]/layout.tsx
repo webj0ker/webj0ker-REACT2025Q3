@@ -29,15 +29,12 @@ export default async function LocaleRootLayout({
 
   const timeZone = 'UTC';
 
+  // УБРАЛИ ТЕГИ <html> и <body>, ОСТАВИЛИ ТОЛЬКО ПРОВАЙДЕРЫ
   return (
-    <html lang={locale}>
-      <body>
-        <ClientIntlProvider locale={locale} messages={messages} timeZone={timeZone}>
-          <ReduxProvider>
-            <ThemeProvider>{children}</ThemeProvider>
-          </ReduxProvider>
-        </ClientIntlProvider>
-      </body>
-    </html>
+    <ClientIntlProvider locale={locale} messages={messages} timeZone={timeZone}>
+      <ReduxProvider>
+        <ThemeProvider>{children}</ThemeProvider>
+      </ReduxProvider>
+    </ClientIntlProvider>
   );
 }

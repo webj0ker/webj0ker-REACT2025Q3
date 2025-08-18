@@ -1,6 +1,15 @@
 import React from 'react';
-import { ReactNode } from 'react';
 
-export default function RootLayout({ children }: { children: ReactNode }) {
-  return children;
+export default function RootLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: { lang: string };
+}) {
+  return (
+    <html lang={params.lang}>
+      <body>{children}</body>
+    </html>
+  );
 }
