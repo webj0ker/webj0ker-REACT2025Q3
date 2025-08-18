@@ -11,10 +11,13 @@ import SpellDetails from '../src/components/SpellDetails/SpellDetails';
 import SelectedFlyout from '../src/components/SelectedFlyout/SelectedFlyout';
 import { useGetSpellsQuery } from '../src/store/apiSlice';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import LocaleSwitcher from '../src/components/LocaleSwitcher/LocaleSwitcher';
 
 const ITEMS_PER_PAGE = 10;
 
 export default function HomePage() {
+  const t = useTranslations();
   const [searchTerm, setSearchTerm] = useState('');
   const searchParams = useSearchParams() as ReadonlyURLSearchParams;
   const router = useRouter();
@@ -77,6 +80,7 @@ export default function HomePage() {
           <option value="light">Light</option>
           <option value="dark">Dark</option>
         </select>
+        <LocaleSwitcher />
         <button style={{ marginLeft: 16 }} onClick={handleRefresh}>
           Refresh
         </button>
@@ -106,6 +110,7 @@ export default function HomePage() {
         )}
       </div>
       <SelectedFlyout />
+      <div>{('home')}</div>
     </div>
   );
 }
