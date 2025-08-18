@@ -28,7 +28,6 @@ export default async function LocaleRootLayout({
 
   const timeZone = 'UTC';
 
-  // УБРАЛИ ТЕГИ <html> и <body>, ОСТАВИЛИ ТОЛЬКО ПРОВАЙДЕРЫ
   return (
     <ClientIntlProvider locale={locale} messages={messages} timeZone={timeZone}>
       <ReduxProvider>
