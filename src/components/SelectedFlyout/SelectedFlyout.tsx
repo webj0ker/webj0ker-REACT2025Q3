@@ -1,12 +1,17 @@
+'use client';
+
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslations } from 'next-intl';
 import { RootState } from '../../store';
 import { unselectAll } from '../../store/selectedSlice';
 
 const SelectedFlyout = () => {
+  const t = useTranslations();
   const dispatch = useDispatch();
   const selected = useSelector((state: RootState) => state.selected.items);
+  const count = selected.length;
 
-  if (selected.length === 0) return null;
+  if (count === 0) return null;
 
   const handleUnselectAll = () => dispatch(unselectAll());
 
@@ -21,7 +26,7 @@ const SelectedFlyout = () => {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `${selected.length}_items.csv`);
+    link.setAttribute('download', `${count}_items.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -29,11 +34,9 @@ const SelectedFlyout = () => {
 
   return (
     <div className="selected-flyout">
-      <span>
-        {selected.length} item{selected.length > 1 ? 's' : ''} selected
-      </span>
-      <button onClick={handleUnselectAll}>Unselect all</button>
-      <button onClick={handleDownload}>Download</button>
+      <span>{t('selectedItems', { count })}</span>
+      <button onClick={handleUnselectAll}>{t('UnselectAll')}</button>
+      <button onClick={handleDownload}>{t('Download')}</button>
     </div>
   );
 };

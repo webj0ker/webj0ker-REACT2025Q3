@@ -1,6 +1,17 @@
 {
   "Home": "Home",
+  "Title": "Harry Potter All Spells",
   "About": "About",
   "Refresh": "Refresh",
-  "404": "404 Not Found"
+  "Welcome": "Welcome! Here is your content.",
+  "Search": "Search",
+  "UnselectAll": "Unselect All",
+  "Download": "Download",
+  "selectedItems": "{count, plural, one {# item selected} other {# items selected}}",
+  "ThemeLight": "Light",
+  "ThemeDark": "Dark",
+  "NotFound": {
+    "description": "Could not find the requested page.",
+    "returnHome": "Return Home"
+  }
 }
