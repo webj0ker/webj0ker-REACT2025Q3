@@ -1,0 +1,26 @@
+{
+  "Home": "Home",
+  "Title": "Harry Potter All Spells",
+  "About": "About",
+  "Refresh": "Refresh",
+  "Welcome": "Welcome! Here is your content.",
+  "Search": "Search",
+  "UnselectAll": "Unselect All",
+  "Download": "Download",
+  "selectedItems": "{count, plural, one {# item selected} other {# items selected}}",
+  "ThemeLight": "Light",
+  "ThemeDark": "Dark",
+  "NotFound": {
+    "description": "Could not find the requested page.",
+    "returnHome": "Return Home"
+  },
+  "Close": "Close",
+  "AboutThisApp": "About This App",
+  "ContactInfo": "Contact Info",
+  "Summary": "Summary",
+  "Skills": "Skills",
+  "CodeExample": "Code Example",
+  "Experience": "Experience",
+  "Education": "Education",
+  "English": "English"
+}

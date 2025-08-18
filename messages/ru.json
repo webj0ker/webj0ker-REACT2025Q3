@@ -1,0 +1,26 @@
+{
+  "Home": "Главная",
+  "Title": "Гарри Поттер Все Заклятия",
+  "About": "О проекте",
+  "Refresh": "Обновить",
+  "Welcome": "Добро пожаловать! Здесь будет ваш контент.",
+  "Search": "Поиск",
+  "UnselectAll": "Снять все",
+  "Download": "Скачать",
+  "selectedItems": "{count, plural, one {# элемент выбран} few {# элемента выбрано} many {# элементов выбрано} other {# элемента выбрано}}",
+  "ThemeLight": "Светлая",
+  "ThemeDark": "Темная",
+  "NotFound": {
+    "description": "Запрошенная страница не найдена.",
+    "returnHome": "Вернуться на главную"
+  },
+  "Close": "Закрыть",
+  "AboutThisApp": "О приложении",
+  "ContactInfo": "Контакты",
+  "Summary": "О себе",
+  "Skills": "Навыки",
+  "CodeExample": "Пример кода",
+  "Experience": "Опыт",
+  "Education": "Образование",
+  "English": "Английский"
+}

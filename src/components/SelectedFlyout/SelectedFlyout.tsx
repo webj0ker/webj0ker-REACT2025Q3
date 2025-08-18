@@ -1,40 +1,46 @@
+'use client';
+
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslations } from 'next-intl';
 import { RootState } from '../../store';
 import { unselectAll } from '../../store/selectedSlice';
-import './SelectedFlyout.css';
+import { createCsvContent } from '../../actions/downloadCsv';
 
 const SelectedFlyout = () => {
+  const t = useTranslations();
   const dispatch = useDispatch();
   const selected = useSelector((state: RootState) => state.selected.items);
+  const count = selected.length;
 
-  if (selected.length === 0) return null;
+  if (count === 0) return null;
 
   const handleUnselectAll = () => dispatch(unselectAll());
 
-  const handleDownload = () => {
-    const csvContent =
-      'data:text/csv;charset=utf-8,' +
-      ['name,description']
-        .concat(
-          selected.map((item) => `"${item.name}","${item.description ?? ''}"`)
-        )
-        .join('\n');
-    const encodedUri = encodeURI(csvContent);
+  const handleDownload = async () => {
+    // 1. Получаем CSV-строку с сервера
+    const csvContent = await createCsvContent(selected);
+
+    // 2. Создаем Blob и временный URL
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+
+    // 3. Создаем ссылку в памяти
     const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `${selected.length}_items.csv`);
-    document.body.appendChild(link);
+    link.href = url;
+    link.download = `${count}_items.csv`;
+
+    // 4. "Кликаем" по ней, чтобы начать скачивание
     link.click();
-    document.body.removeChild(link);
+
+    // 5. Очищаем временный URL из памяти браузера
+    URL.revokeObjectURL(url);
   };
 
   return (
     <div className="selected-flyout">
-      <span>
-        {selected.length} item{selected.length > 1 ? 's' : ''} selected
-      </span>
-      <button onClick={handleUnselectAll}>Unselect all</button>
-      <button onClick={handleDownload}>Download</button>
+      <span>{t('selectedItems', { count })}</span>
+      <button onClick={handleUnselectAll}>{t('UnselectAll')}</button>
+      <button onClick={handleDownload}>{t('Download')}</button>
     </div>
   );
 };
