@@ -26,9 +26,9 @@ export default function SpellsApp({ initialSpells }: { initialSpells: Spell[] })
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [searchTerm, setSearchTerm] = useState(searchParams.get('q') || '');
-  const page = Number(searchParams.get('page')) || 1;
-  const details = searchParams.get('details');
+  const [searchTerm, setSearchTerm] = useState(searchParams?.get('q') || '');
+  const page = Number(searchParams?.get('page')) || 1;
+  const details = searchParams?.get('details');
 
   const { theme, setTheme } = useTheme();
 
@@ -46,26 +46,26 @@ export default function SpellsApp({ initialSpells }: { initialSpells: Spell[] })
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    const newParams = new URLSearchParams(searchParams.toString());
+    const newParams = new URLSearchParams(searchParams?.toString());
     newParams.set('q', term);
     newParams.set('page', '1');
     router.push(`?${newParams.toString()}`);
   };
 
   const handlePageChange = (newPage: number) => {
-    const newParams = new URLSearchParams(searchParams.toString());
+    const newParams = new URLSearchParams(searchParams?.toString());
     newParams.set('page', String(newPage));
     router.push(`?${newParams.toString()}`);
   };
 
   const handleShowDetails = (name: string) => {
-    const newParams = new URLSearchParams(searchParams.toString());
+    const newParams = new URLSearchParams(searchParams?.toString());
     newParams.set('details', name);
     router.push(`?${newParams.toString()}`);
   };
 
   const handleCloseDetails = () => {
-    const newParams = new URLSearchParams(searchParams.toString());
+    const newParams = new URLSearchParams(searchParams?.toString());
     newParams.delete('details');
     router.push(`?${newParams.toString()}`);
   };
