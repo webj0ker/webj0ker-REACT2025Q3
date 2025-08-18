@@ -70,6 +70,10 @@ export default function SpellsApp({ initialSpells }: { initialSpells: Spell[] })
     router.push(`?${newParams.toString()}`);
   };
 
+  const handleRefresh = () => {
+    router.refresh(); // Next.js обновит данные с сервера
+  };
+
   return (
     <div>
       <nav className='navigation-top' style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -83,6 +87,7 @@ export default function SpellsApp({ initialSpells }: { initialSpells: Spell[] })
           <option value="dark">{t('ThemeDark')}</option>
         </select>
         <LocaleSwitcher />
+        <button onClick={handleRefresh}>{t('Refresh')}</button>
       </nav>
       <div style={{ display: 'flex', width: '100%' }}>
         <div style={{ flex: 1 }}>
