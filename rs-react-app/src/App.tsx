@@ -1,5 +1,6 @@
 import './App.css';
 import { useState } from 'react';
+import Modal from './components/Modal/Modal';
 
 function App() {
   const [modalType, setModalType] = useState<'uncontrolled' | 'controlled' | null>(null);
@@ -10,6 +11,10 @@ function App() {
       <button onClick={() => setModalType('uncontrolled')}>Open Uncontrolled Form</button>
       <button onClick={() => setModalType('controlled')}>Open Controlled Form</button>
       {/* Место для модального окна */}
+      
+       <Modal isOpen={!!modalType} onClose={() => setModalType(null)}>
+
+        </Modal>
     </div>
   );
 }
