@@ -1,10 +1,14 @@
 import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { addUncontrolled } from '../../store/formSlice';
 import { validateUncontrolledForm } from '../../utils/validation';
+import './Form.css';
 
+interface Props {
+  onSuccess: () => void;
+}
 
-
-export default function UncontrolledForm() {
+export default function UncontrolledForm({ onSuccess }: Props) {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const formRef = useRef<HTMLFormElement>(null);
@@ -25,7 +29,8 @@ export default function UncontrolledForm() {
 
     const validation = validateUncontrolledForm(data);
     if (validation.valid) {
-   
+      dispatch(addUncontrolled(validation.data));
+      onSuccess();
     } else {
       setErrors(validation.errors);
     }

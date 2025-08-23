@@ -1,5 +1,9 @@
 import { useForm } from 'react-hook-form';
-
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useDispatch } from 'react-redux';
+import { addControlled } from '../../store/formSlice';
+import { formSchema } from '../../utils/validation';
+import './Form.css';
 
 interface FormValues {
   name: string;
@@ -12,14 +16,19 @@ interface FormValues {
   country: string;
 }
 
-export default function ControlledForm({  }: { onSuccess: () => void }) {
-
+export default function ControlledForm({ onSuccess }: { onSuccess: () => void }) {
+  const dispatch = useDispatch();
   const { register, handleSubmit, formState } = useForm<FormValues>({
+    resolver: yupResolver(formSchema),
     mode: 'onChange',
   });
 
-  const onSubmit = () => {
-
+  const onSubmit = (data: FormValues) => {
+    dispatch(addControlled({
+      ...data,
+      image: data.image[0] ? URL.createObjectURL(data.image[0]) : '',
+    }));
+    onSuccess();
   };
 
   return (

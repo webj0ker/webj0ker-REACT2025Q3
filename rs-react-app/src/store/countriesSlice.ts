@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 const initialCountries: string[] = [
   'Russia', 'USA', 'Germany', 'France', 'China', 'Japan', 'Brazil', 'India', 'Canada', 'Australia'
