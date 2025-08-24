@@ -1,7 +1,16 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 const initialCountries: string[] = [
-  'Russia', 'USA', 'Germany', 'France', 'China', 'Japan', 'Brazil', 'India', 'Canada', 'Australia'
+  'Russia',
+  'USA',
+  'Germany',
+  'France',
+  'China',
+  'Japan',
+  'Brazil',
+  'India',
+  'Canada',
+  'Australia',
 ];
 
 const countriesSlice = createSlice({

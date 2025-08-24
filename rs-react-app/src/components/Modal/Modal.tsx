@@ -27,14 +27,14 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
       ref={overlayRef}
       tabIndex={-1}
       className="modal-overlay"
-      onClick={e => {
+      onClick={(e) => {
         if (e.target === overlayRef.current) onClose();
       }}
     >
       <div
         className="modal-content"
         tabIndex={0}
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         {children}
       </div>

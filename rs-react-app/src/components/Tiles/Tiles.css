@@ -9,7 +9,9 @@
   border-radius: 6px;
   padding: 12px;
   font-size: 0.95em;
-  transition: border-color 0.3s, background 0.3s;
+  transition:
+    border-color 0.3s,
+    background 0.3s;
 }
 .tile.new {
   border-color: #4caf50;

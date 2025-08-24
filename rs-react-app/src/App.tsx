@@ -9,18 +9,28 @@ import Tiles from './components/Tiles/Tiles';
 import './App.css';
 
 function App() {
-  const [modalType, setModalType] = useState<'uncontrolled' | 'controlled' | null>(null);
+  const [modalType, setModalType] = useState<
+    'uncontrolled' | 'controlled' | null
+  >(null);
 
   return (
     <Provider store={store}>
       <div className="app-container">
         <h1>Forms</h1>
-        <button onClick={() => setModalType('uncontrolled')}>Open Uncontrolled Form</button>
-        <button onClick={() => setModalType('controlled')}>Open Controlled Form</button>
+        <button onClick={() => setModalType('uncontrolled')}>
+          Open Uncontrolled Form
+        </button>
+        <button onClick={() => setModalType('controlled')}>
+          Open Controlled Form
+        </button>
         <Tiles />
         <Modal isOpen={!!modalType} onClose={() => setModalType(null)}>
-          {modalType === 'uncontrolled' && <UncontrolledForm onSuccess={() => setModalType(null)} />}
-          {modalType === 'controlled' && <ControlledForm onSuccess={() => setModalType(null)} />}
+          {modalType === 'uncontrolled' && (
+            <UncontrolledForm onSuccess={() => setModalType(null)} />
+          )}
+          {modalType === 'controlled' && (
+            <ControlledForm onSuccess={() => setModalType(null)} />
+          )}
         </Modal>
       </div>
     </Provider>
