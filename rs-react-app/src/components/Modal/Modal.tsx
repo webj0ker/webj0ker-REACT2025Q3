@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import './Modal.css';
 
 interface ModalProps {
   isOpen: boolean;
@@ -16,7 +17,6 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
       if (e.key === 'Escape') onClose();
     };
     document.addEventListener('keydown', handleKeyDown);
-    if (overlayRef.current) overlayRef.current.focus();
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
@@ -25,17 +25,20 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
   return ReactDOM.createPortal(
     <div
       ref={overlayRef}
-      tabIndex={-1}
       className="modal-overlay"
+      tabIndex={-1}
       onClick={(e) => {
         if (e.target === overlayRef.current) onClose();
       }}
     >
-      <div
-        className="modal-content"
-        tabIndex={0}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="modal-content">
+        <button
+          className="modal-close"
+          onClick={onClose}
+          aria-label="Закрыть"
+        >
+          ×
+        </button>
         {children}
       </div>
     </div>,

@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addUncontrolled } from '../../store/formSlice';
 import { validateUncontrolledForm } from '../../utils/validation';
+import CountryAutocomplete from '../CountryAutocomplete/CountryAutocomplete';
 
 interface Props {
   onSuccess: () => void;
@@ -27,7 +28,6 @@ export default function UncontrolledForm({ onSuccess }: Props) {
       country: HTMLSelectElement;
     };
 
-    // Преобразуем image в URL, чтобы соответствовать типу Redux
     const data = {
       name: elements.name.value,
       age: Number(elements.age.value),
@@ -35,17 +35,19 @@ export default function UncontrolledForm({ onSuccess }: Props) {
       password: elements.password.value,
       gender: elements.gender.value,
       terms: elements.terms.checked,
-      image:
-        elements.image.files && elements.image.files[0]
-          ? URL.createObjectURL(elements.image.files[0])
-          : '', // строка
+      image: elements.image.files && elements.image.files[0] ? elements.image.files[0] : null, 
       country: elements.country.value,
     };
 
     const validation = await validateUncontrolledForm(data);
 
     if (validation.valid && validation.data) {
-      dispatch(addUncontrolled(validation.data));
+   
+      const imageUrl =
+        data.image && data.image instanceof File
+          ? URL.createObjectURL(data.image)
+          : '';
+      dispatch(addUncontrolled({ ...validation.data, image: imageUrl }));
       onSuccess();
     } else if (validation.errors) {
       setErrors(validation.errors);
@@ -79,12 +81,9 @@ export default function UncontrolledForm({ onSuccess }: Props) {
       {errors.gender && <div className="error">{errors.gender}</div>}
 
       <label htmlFor="country">Country</label>
-      <select id="country" name="country">
-        <option value="">Select country</option>
-        <option value="USA">USA</option>
-        <option value="UK">UK</option>
-        <option value="Germany">Germany</option>
-      </select>
+      <CountryAutocomplete name="country" value={''} onChange={function (e: React.ChangeEvent<HTMLInputElement>) {
+        throw new Error('Function not implemented.');
+      } } />
       {errors.country && <div className="error">{errors.country}</div>}
 
       <label htmlFor="image">Image</label>

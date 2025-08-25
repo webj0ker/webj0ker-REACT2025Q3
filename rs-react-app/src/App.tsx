@@ -17,12 +17,14 @@ function App() {
     <Provider store={store}>
       <div className="app-container">
         <h1>Forms</h1>
-        <button onClick={() => setModalType('uncontrolled')}>
-          Open Uncontrolled Form
-        </button>
-        <button onClick={() => setModalType('controlled')}>
-          Open Controlled Form
-        </button>
+        <div className="container-button">
+          <button className='uncontrolled' onClick={() => setModalType('uncontrolled')}>
+            Uncontrolled Form
+          </button>
+          <button className='controlled' onClick={() => setModalType('controlled')}>
+            Controlled Form
+          </button>
+        </div>
         <Tiles />
         <Modal isOpen={!!modalType} onClose={() => setModalType(null)}>
           {modalType === 'uncontrolled' && (
