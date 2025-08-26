@@ -12,6 +12,7 @@ export default function UncontrolledForm({ onSuccess }: Props) {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const formRef = useRef<HTMLFormElement>(null);
+  const countryInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +26,7 @@ export default function UncontrolledForm({ onSuccess }: Props) {
       gender: HTMLSelectElement;
       terms: HTMLInputElement;
       image: HTMLInputElement;
-      country: HTMLSelectElement;
+      country: HTMLInputElement;
     };
 
     const data = {
@@ -35,20 +36,20 @@ export default function UncontrolledForm({ onSuccess }: Props) {
       password: elements.password.value,
       gender: elements.gender.value,
       terms: elements.terms.checked,
-      image: elements.image.files && elements.image.files[0] ? elements.image.files[0] : null, 
+      image: elements.image.files && elements.image.files.length > 0 ? elements.image.files : null,
       country: elements.country.value,
     };
 
     const validation = await validateUncontrolledForm(data);
 
     if (validation.valid && validation.data) {
-   
       const imageUrl =
         data.image && data.image instanceof File
           ? URL.createObjectURL(data.image)
           : '';
       dispatch(addUncontrolled({ ...validation.data, image: imageUrl }));
       onSuccess();
+      setErrors({});
     } else if (validation.errors) {
       setErrors(validation.errors);
     }
@@ -81,9 +82,10 @@ export default function UncontrolledForm({ onSuccess }: Props) {
       {errors.gender && <div className="error">{errors.gender}</div>}
 
       <label htmlFor="country">Country</label>
-      <CountryAutocomplete name="country" value={''} onChange={function (e: React.ChangeEvent<HTMLInputElement>) {
-        throw new Error('Function not implemented.');
-      } } />
+      <CountryAutocomplete
+        name="country"
+        inputRef={countryInputRef}
+      />
       {errors.country && <div className="error">{errors.country}</div>}
 
       <label htmlFor="image">Image</label>

@@ -1,7 +1,8 @@
 interface Props {
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  name?: string;
+  name: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  inputRef?: React.Ref<HTMLInputElement>;
 }
 
 const allCountries = [
@@ -27,7 +28,7 @@ const allCountries = [
   "Yemen", "Zambia", "Zimbabwe"
 ];
 
-export default function CountryAutocomplete({ value, onChange, name }: Props) {
+export default function CountryAutocomplete({ name, value, onChange, inputRef }: Props) {
   return (
     <>
       <input
@@ -36,6 +37,7 @@ export default function CountryAutocomplete({ value, onChange, name }: Props) {
         name={name}
         value={value}
         onChange={onChange}
+        ref={inputRef}
         autoComplete="off"
       />
       <datalist id="countries">

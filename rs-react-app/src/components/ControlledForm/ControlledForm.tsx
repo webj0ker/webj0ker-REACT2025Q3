@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
 import { addControlled } from '../../store/formSlice';
 import { formSchema, type FormSchemaType } from '../../utils/validation';
-import { useState } from 'react';
+// import { useState } from 'react';
 import CountryAutocomplete from '../CountryAutocomplete/CountryAutocomplete';
 
 export default function ControlledForm({
@@ -12,7 +12,7 @@ export default function ControlledForm({
   onSuccess: () => void;
 }) {
   const dispatch = useDispatch();
-  const [submitted, setSubmitted] = useState<FormSchemaType & { imageUrl?: string } | null>(null);
+  // const [submitted, setSubmitted] = useState<FormSchemaType & { imageUrl?: string } | null>(null);
 
   const { control, register, handleSubmit, formState, reset } = useForm<FormSchemaType>({
     resolver: yupResolver(formSchema),
@@ -30,7 +30,7 @@ export default function ControlledForm({
         image: imageUrl,
       })
     );
-    setSubmitted({ ...data, imageUrl }); 
+    // setSubmitted({ ...data, imageUrl }); 
     onSuccess(); 
     reset();
   };

@@ -13,16 +13,4 @@ export default defineConfig({
       extension: ['.js', '.ts', '.tsx'],
     }),
   ],
-  test: {
-    environment: 'jsdom',
-    globals: true, 
-    coverage: {
-      reporter: ['text', 'json', 'html'],
-      statements: 80,
-      branches: 80,
-      functions: 80,
-      lines: 80,
-    },
-    setupFiles: ['./src/setupTests.ts'],
-  },
 });

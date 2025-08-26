@@ -35,8 +35,20 @@ export const formSchema = yup.object({
 // Тип, который соответствует схеме
 export type FormSchemaType = yup.InferType<typeof formSchema>;
 
+// Тип для данных неконтролируемой формы
+export interface UncontrolledFormData {
+  name: string;
+  age: number;
+  email: string;
+  password: string;
+  gender: string;
+  terms: boolean;
+  image: FileList | null;
+  country: string;
+}
+
 // Для uncontrolled формы — простая проверка
-export async function validateUncontrolledForm(data: any) {
+export async function validateUncontrolledForm(data: UncontrolledFormData) {
   const errors: Record<string, string> = {};
 
   if (!data.name) errors.name = 'Name is required';
@@ -53,7 +65,7 @@ export async function validateUncontrolledForm(data: any) {
     return { valid: false, errors };
   }
 
-  // Преобразуем FileList в URL
+
   const imageUrl =
     data.image && data.image[0] ? URL.createObjectURL(data.image[0]) : '';
 
