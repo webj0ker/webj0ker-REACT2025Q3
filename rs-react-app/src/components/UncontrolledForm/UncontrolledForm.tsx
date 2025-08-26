@@ -44,8 +44,8 @@ export default function UncontrolledForm({ onSuccess }: Props) {
 
     if (validation.valid && validation.data) {
       const imageUrl =
-        data.image && data.image instanceof File
-          ? URL.createObjectURL(data.image)
+        data.image && data.image.length > 0
+          ? URL.createObjectURL(data.image[0])
           : '';
       dispatch(addUncontrolled({ ...validation.data, image: imageUrl }));
       onSuccess();
