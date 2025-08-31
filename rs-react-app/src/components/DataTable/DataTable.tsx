@@ -1,21 +1,31 @@
-export default function DataTable({ data }: { data: any[] }) {
+interface DataTableProps {
+  data: any[];
+  columns: string[];
+  selectedYear?: number;
+}
+
+const defaultColumns = ['year', 'population', 'co2', 'co2_per_capita'];
+
+export default function DataTable({ data, columns, selectedYear }: DataTableProps) {
+  const displayColumns = columns && columns.length > 0 ? columns : defaultColumns;
+
   return (
     <table>
       <thead>
         <tr>
-          <th>Year</th>
-          <th>Population</th>
-          <th>CO2</th>
-          <th>CO2 per Capita</th>
+          {displayColumns.map(col => (
+            <th key={col}>{col}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
         {data.map(row => (
           <tr key={row.year}>
-            <td>{row.year ?? 'N/A'}</td>
-            <td>{row.population ?? 'N/A'}</td>
-            <td>{row.co2 ?? 'N/A'}</td>
-            <td>{row.co2_per_capita ?? 'N/A'}</td>
+            {displayColumns.map(col => (
+              <td key={col}>
+                {row[col] !== undefined && row[col] !== null ? row[col] : 'N/A'}
+              </td>
+            ))}
           </tr>
         ))}
       </tbody>
