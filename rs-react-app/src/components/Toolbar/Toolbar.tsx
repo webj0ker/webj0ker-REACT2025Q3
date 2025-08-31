@@ -1,19 +1,38 @@
-export default function Toolbar({ years, selectedYear, onYearChange, regions, selectedRegion, onRegionChange, search, onSearch, sort, onSort }: any) {
+const years = Array.from({ length: 20 }, (_, i) => 2023 - i);
+
+export default function Toolbar({
+  search,
+  setSearch,
+  year,
+  setYear,
+  sort,
+  setSort,
+}: {
+  search: string;
+  setSearch: (v: string) => void;
+  year: number;
+  setYear: (v: number) => void;
+  sort: string;
+  setSort: (v: string) => void;
+}) {
   return (
     <div className="toolbar">
-      <select value={selectedYear} onChange={e => onYearChange(Number(e.target.value))}>
-        {years.map((y: number) => <option key={y} value={y}>{y}</option>)}
+      <input
+        className="search-input"
+        type="text"
+        placeholder="🔍 Search"
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+      />
+      <select value={year} onChange={e => setYear(Number(e.target.value))}>
+        {years.map(y => (
+          <option key={y} value={y}>{y}</option>
+        ))}
       </select>
-      <select value={selectedRegion} onChange={e => onRegionChange(e.target.value)}>
-        <option value="">All regions</option>
-        {regions.map((r: string) => <option key={r} value={r}>{r}</option>)}
-      </select>
-      <input value={search} onChange={e => onSearch(e.target.value)} placeholder="Search country..." />
-      <select value={sort} onChange={e => onSort(e.target.value)}>
-        <option value="name-asc">Name ↑</option>
-        <option value="name-desc">Name ↓</option>
-        <option value="pop-asc">Population ↑</option>
-        <option value="pop-desc">Population ↓</option>
+      <select value={sort} onChange={e => setSort(e.target.value)}>
+        <option value="">Sort by</option>
+        <option value="population">Population</option>
+        <option value="country">Country</option>
       </select>
     </div>
   );

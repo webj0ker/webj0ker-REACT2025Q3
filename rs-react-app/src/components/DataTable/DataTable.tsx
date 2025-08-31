@@ -1,33 +1,58 @@
-interface DataTableProps {
-  data: any[];
-  columns: string[];
-  selectedYear?: number;
-}
+import { useMemo } from 'react';
+import { useCo2Data, type CountryData } from '../../hooks/useCo2Data';
 
-const defaultColumns = ['year', 'population', 'co2', 'co2_per_capita'];
+export default function DataTable({
+  search,
+  year,
+  sort,
+  selectedColumns,
+}: {
+  search: string;
+  year: number;
+  sort: string;
+  selectedColumns: string[];
+}) {
+  const { data, loading } = useCo2Data(year);
 
-export default function DataTable({ data, columns, selectedYear }: DataTableProps) {
-  const displayColumns = columns && columns.length > 0 ? columns : defaultColumns;
+  const filteredSorted = useMemo(() => {
+    let filtered = data.filter(row =>
+      (row.country ?? '').toLowerCase().includes(search.toLowerCase())
+    );
+    if (sort === 'population') {
+      filtered = [...filtered].sort((a, b) => (b.population ?? 0) - (a.population ?? 0));
+    } else if (sort === 'country') {
+      filtered = [...filtered].sort((a, b) => a.country.localeCompare(b.country));
+    }
+    return filtered;
+  }, [data, search, sort]);
+
+  if (loading) {
+    return <div style={{ textAlign: 'center', marginTop: 40 }}>Loading...</div>;
+  }
 
   return (
-    <table>
+    <table className="table">
       <thead>
         <tr>
-          {displayColumns.map(col => (
+          {selectedColumns.map(col => (
             <th key={col}>{col}</th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {data.map(row => (
-          <tr key={row.year}>
-            {displayColumns.map(col => (
-              <td key={col}>
-                {row[col] !== undefined && row[col] !== null ? row[col] : 'N/A'}
-              </td>
-            ))}
+        {filteredSorted.length === 0 ? (
+          <tr>
+            <td colSpan={selectedColumns.length}>No data</td>
           </tr>
-        ))}
+        ) : (
+          filteredSorted.map((row, idx) => (
+            <tr key={idx}>
+              {selectedColumns.map(col => (
+                <td key={col}>{row[col as keyof CountryData] ?? 'N/A'}</td>
+              ))}
+            </tr>
+          ))
+        )}
       </tbody>
     </table>
   );

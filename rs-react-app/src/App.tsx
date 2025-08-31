@@ -1,29 +1,46 @@
 import './App.css';
-import Co2DataLoader from './components/Co2DataLoader/Co2DataLoader';
-import {useState, useCallback } from 'react';
+import { useState } from 'react';
+import Toolbar from './components/Toolbar/Toolbar';
+import DataTable from './components/DataTable/DataTable';
+import ColumnSelectorModal from './components/ColumnSelectorModal/ColumnSelectorModal';
+import type { ColumnKey } from './components/Columns/Columns';
 
 function App() {
-  const [year, setYear] = useState<number | null>(null);
-  const [region, setRegion] = useState<string>('');
-  const [search, setSearch] = useState<string>('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const [year, setYear] = useState<number>(2023);
   const [sort, setSort] = useState<string>('');
-
-  const handleYearChange = useCallback((y: number) => setYear(y), []);
-  const handleRegionChange = useCallback((r: string) => setRegion(r), []);
-  const handleSearch = useCallback((s: string) => setSearch(s), []);
-  const handleSort = useCallback((s: string) => setSort(s), []);
+  const [selectedColumns, setSelectedColumns] = useState<ColumnKey[]>([
+    'country', 'iso', 'population', 'year', 'co2', 'co2PerCapita'
+  ]);
 
   return (
     <div className="app-container">
-      <h1>CO2 Emissions Dashboard</h1>
-      <div>Selected Year: {year !== null ? year : 'None'}</div>
-      <div>Selected Region: {region !== '' ? region : 'None'}</div>
-      <div>Search Query: {search !== '' ? search : 'None'}</div>
-      <div>Sort Option: {sort !== '' ? sort : 'None'}</div>
-      <button onClick={() => handleYearChange(2024)}>Set Year to 2024</button>
-      <button onClick={() => handleRegionChange('Europe')}>Set Region to Europe</button>
-      <button onClick={() => handleSort('asc')}>Sort Ascending</button>
-      <Co2DataLoader />
+      <h1>Climate Data Viewer</h1>
+      <Toolbar
+        search={search}
+        setSearch={setSearch}
+        year={year}
+        setYear={setYear}
+        sort={sort}
+        setSort={setSort}
+      />
+      <button className="select-columns-btn" onClick={() => setIsModalOpen(true)}>
+        Select columns
+      </button>
+      <DataTable
+        search={search}
+        year={year}
+        sort={sort}
+        selectedColumns={selectedColumns}
+      />
+      {isModalOpen && (
+        <ColumnSelectorModal
+          selectedColumns={selectedColumns}
+          setSelectedColumns={setSelectedColumns}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
